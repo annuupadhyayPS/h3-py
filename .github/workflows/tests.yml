@@ -58,7 +58,7 @@ jobs:
       run: |
             docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
             arm64v8/ubuntu \
-            bash -exc 'apt-get install python3 && \
+            bash -exc 'apt-get install python && \
             python3 -m venv .env && \
             source .env/bin/activate && \
             python --version && \
