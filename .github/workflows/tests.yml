@@ -40,8 +40,6 @@ jobs:
         pyver: [3.7, 3.8, 3.9]
       fail-fast: false
     runs-on: ubuntu-latest
-    env:
-      py: /opt/python/${{ matrix.pyver }}/bin/python
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -60,8 +58,9 @@ jobs:
       run: |
             docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
             arm64v8/ubuntu \
-            bash -exc '${{ env.py }} -m venv .env && \
+            bash -exc 'python -m venv .env && \
             source .env/bin/activate && \
+            python --version && \
             python -m pip install --upgrade pip setuptools wheel && \
             pip install .[all] && \
             pip install pytest && \
