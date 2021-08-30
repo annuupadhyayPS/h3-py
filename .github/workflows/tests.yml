@@ -52,7 +52,7 @@ jobs:
     - name: Install tools
       run: |
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }} ${{ env.py }}   
+          ${{ env.img }} \   
     - name: Install from source
       run: |
             docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
