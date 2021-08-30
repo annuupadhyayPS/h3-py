@@ -37,7 +37,7 @@ jobs:
     name: "Test ${{ matrix.pyver }} aarch64"
     strategy:
       matrix:
-        pyver: [cp37-cp37m, cp38-cp38, cp39-cp39]
+        pyver: [3.7, 3.8, 3.9]
       fail-fast: false
     runs-on: ubuntu-latest
     env:
@@ -49,15 +49,13 @@ jobs:
       run: |
         git submodule init
         git submodule update  
-    
+    - name: Set up QEMU
+      id: qemu
+      uses: docker/setup-qemu-action@v1 
     - name: Set up Python ${{ matrix.pyver }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.pyver }}
-    - name: Set up QEMU
-      id: qemu
-      uses: docker/setup-qemu-action@v1
-    
     - name: Install from source
       run: |
             docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
