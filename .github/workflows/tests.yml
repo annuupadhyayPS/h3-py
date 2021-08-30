@@ -52,7 +52,7 @@ jobs:
     - name: Install from source
       run: |
             docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-            arm64v8/ubuntu-latest \
+            arm64v8/ubuntu \
             bash -exc '${{ env.py }} -m venv .env && \
             source .env/bin/activate && \
             python -m pip install --upgrade pip setuptools wheel && \
