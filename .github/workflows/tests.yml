@@ -37,9 +37,11 @@ jobs:
     name: "Test ${{ matrix.pyver }} aarch64"
     strategy:
       matrix:
-        pyver: [3.7, 3.8, 3.9]
+        pyver: [cp37-cp37m, cp38-cp38, cp39-cp39]
       fail-fast: false
     runs-on: ubuntu-latest
+    env:
+      py: /opt/python/${{ matrix.pyver }}/bin/python
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -47,21 +49,17 @@ jobs:
       run: |
         git submodule init
         git submodule update  
+    
     - name: Set up QEMU
       id: qemu
-      uses: docker/setup-qemu-action@v1 
-    - name: Set up Python ${{ matrix.pyver }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.pyver }}
+      uses: docker/setup-qemu-action@v1
+    
     - name: Install from source
       run: |
             docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-            arm64v8/ubuntu \
-            bash -exc 'apt-get install python && \
-            python3 -m venv .env && \
+            quay.io/pypa/manylinux2014_aarch64 \
+            bash -exc '${{ env.py }} -m venv .env && \
             source .env/bin/activate && \
-            python --version && \
             python -m pip install --upgrade pip setuptools wheel && \
             pip install .[all] && \
             pip install pytest && \
